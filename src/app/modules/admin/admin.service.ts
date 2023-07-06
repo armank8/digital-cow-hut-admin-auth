@@ -13,6 +13,7 @@ export const createAdminService = async(payload: any): Promise<IAdmin> => {
   payload.id= await generateAdminId();
   // console.log(payload.id);
   const results = await Admin.create(payload);
+  
   return results;
 
   // console.log(password);
@@ -22,14 +23,17 @@ export const createAdminService = async(payload: any): Promise<IAdmin> => {
   //     throw new ApiError(400,'Failed to create user');
   // }
 };
+
+
 export const loginAdminService = (payload: any): Promise<IAdmin> => {
-  const results = Admin.create(payload);
+  // const results = Admin.create(payload);
+  console.log(payload);
   // console.log(results);
 
   // if(!results){
   //     throw new ApiError(400,'Failed to create user');
   // }
-  return results;
+  // return results;
 };
 
 

@@ -10,7 +10,7 @@ const AdminSchema = new Schema<IAdmin>(
             type: String,
             required: true,
             unique: true,
-          },
+        },
         phoneNumber: {
             type: String,
             unique: true,
@@ -23,7 +23,7 @@ const AdminSchema = new Schema<IAdmin>(
         password: {
             type: String,
             required: true,
-            select: 0
+            select: 0,
         },
         name: {
             type: {
@@ -48,6 +48,13 @@ const AdminSchema = new Schema<IAdmin>(
         timestamps: true,
     }
 );
+
+AdminSchema.methods.toJSON = function () {
+    var obj = this.toObject();
+    delete obj.password;
+    // obj.hello=5;
+    return obj;
+}
 
 AdminSchema.pre('save', async function (next) {
     //hashing password
