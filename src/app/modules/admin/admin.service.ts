@@ -2,6 +2,7 @@ import config from "../../../config";
 import { IAdmin } from "./admin.interface";
 import { Admin } from "./admin.model";
 import bcrypt from 'bcrypt';
+import { generateAdminId } from "./admin.utils";
 
 
 export const createAdminService = async(payload: any): Promise<IAdmin> => {
@@ -9,6 +10,8 @@ export const createAdminService = async(payload: any): Promise<IAdmin> => {
   // const { password } = payload;
   // Hash password
   // payload.password = await bcrypt.hash(payload.password, Number(config.bcrypt_salt_rounds))
+  payload.id= await generateAdminId();
+  // console.log(payload.id);
   const results = await Admin.create(payload);
   return results;
 

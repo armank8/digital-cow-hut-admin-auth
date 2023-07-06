@@ -6,6 +6,11 @@ import config from '../../../config';
 
 const AdminSchema = new Schema<IAdmin>(
     {
+        id: {
+            type: String,
+            required: true,
+            unique: true,
+          },
         phoneNumber: {
             type: String,
             unique: true,
@@ -46,7 +51,8 @@ const AdminSchema = new Schema<IAdmin>(
 
 AdminSchema.pre('save', async function (next) {
     //hashing password
-    console.log(this);
+    // console.log(this);
+    // this.id=56
     this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds))
     next();
 });

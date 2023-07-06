@@ -9,7 +9,7 @@ export type UserName = {
 };
 
 export type IAdmin = {
-  _id: string;
+  id: string;
   phoneNumber: string;
   password:string;
   role:Role;
