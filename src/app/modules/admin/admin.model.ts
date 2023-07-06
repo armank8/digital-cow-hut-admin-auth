@@ -4,11 +4,6 @@ import { Role } from './admin.constant';
 
 const AdminSchema = new Schema<IAdmin>(
     {
-        _id: {
-            type: String,
-            required: true,
-            unique: true,
-        },
         phoneNumber: {
             type: String,
             unique: true,
@@ -20,7 +15,8 @@ const AdminSchema = new Schema<IAdmin>(
         },
         password:{
             type:String,
-            required:true 
+            required:true,
+            select:0
         },
         name: {
             type: {

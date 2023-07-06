@@ -1,66 +1,41 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { createAdminService, loginAdminService } from './admin.service';
 
-import pick from '../../../shared/pick';
-import { IAdmin } from './admin.interface';
-import { AdminService } from './admin.service';
 
-const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const result = await AdminService.getSingleAdmin(id);
 
-  sendResponse<IAdmin>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin fetched successfully !',
-    data: result,
-  });
-});
-
-const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, adminFilterableFields);
-  const paginationOptions = pick(req.query, paginationFields);
-
-  const result = await AdminService.getAllAdmins(filters, paginationOptions);
-
-  sendResponse<IAdmin[]>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admins fetched successfully !',
-    meta: result.meta,
-    data: result.data,
-  });
-});
-
-const updateAdmin = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updatedData = req.body;
-
-  const result = await AdminService.updateAdmin(id, updatedData);
-
-  sendResponse<IAdmin>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin updated successfully !',
-    data: result,
-  });
-});
-
-const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const result = await AdminService.deleteAdmin(id);
-
-  sendResponse<IAdmin>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin deleted successfully !',
-    data: result,
-  });
-});
-
-export const AdminController = {
-  getSingleAdmin,
-  getAllAdmins,
-  updateAdmin,
-  deleteAdmin,
+export const createAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userData = req.body;
+    const result = await createAdminService(userData);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Admin Created successfully",
+      data: result
+    })
+  } catch (err) {
+    next(err);
+  }
 };
+
+export const loginAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userData = req.body;
+    const result = await loginAdminService(userData);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "User logged in successfully",
+      data: result
+    })
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
+
+
+
+
