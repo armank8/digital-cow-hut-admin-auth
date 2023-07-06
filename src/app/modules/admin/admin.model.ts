@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { IAdmin } from './admin.interface';
 import { Role } from './admin.constant';
+import bcrypt from 'bcrypt';
+import config from '../../../config';
 
 const AdminSchema = new Schema<IAdmin>(
     {
@@ -13,10 +15,10 @@ const AdminSchema = new Schema<IAdmin>(
             type: String,
             enum: Role
         },
-        password:{
-            type:String,
-            required:true,
-            select:0
+        password: {
+            type: String,
+            required: true,
+            select: 0
         },
         name: {
             type: {
@@ -41,5 +43,12 @@ const AdminSchema = new Schema<IAdmin>(
         timestamps: true,
     }
 );
+
+AdminSchema.pre('save', async function (next) {
+    //hashing password
+    console.log(this);
+    this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds))
+    next();
+});
 
 export const Admin = model<IAdmin>('Admin', AdminSchema);
