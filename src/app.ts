@@ -4,6 +4,7 @@ import cors from "cors";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import authRouter from "./app/modules/user/auth.route";
 import userRouter from "./app/modules/user/user.route";
+import adminsRouter from "./app/modules/admin/admin.route";
 import cowsRouter from "./app/modules/cows/cows.route";
 import ordersRouter from "./app/modules/orders/orders.route";
 import ApiError from "./errors/ApiError";
@@ -26,7 +27,8 @@ app.get("/", async(req: Request, res: Response, next: NextFunction) => {
 });
 
 //routes
-app.use('/api/v1/auth',authRouter)
+app.use('/api/v1/auth',authRouter);
+app.use('/api/v1/admins',adminsRouter);
 app.use('/api/v1/users',userRouter);
 app.use('/api/v1/cows',cowsRouter);
 app.use('/api/v1/orders',ordersRouter);
