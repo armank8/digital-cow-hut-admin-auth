@@ -8,11 +8,13 @@ import adminsRouter from "./app/modules/admin/admin.route";
 import cowsRouter from "./app/modules/cows/cows.route";
 import ordersRouter from "./app/modules/orders/orders.route";
 import ApiError from "./errors/ApiError";
+var cookieParser = require('cookie-parser')
 
 const app: Application = express();
 const port = 3000;
 
 app.use(cors());
+app.use(cookieParser())
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
