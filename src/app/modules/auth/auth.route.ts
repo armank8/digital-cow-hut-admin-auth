@@ -1,10 +1,11 @@
 import express from 'express';
-import { createAdmin, loginAdmin } from './auth.controller';
+import {  createUser, getRefreshToken, loginUser} from './auth.controller';
 
 const router = express.Router();
 
-router.post('/create-admin',createAdmin)
-router.post('/login',loginAdmin)
+router.post('/signup',createUser)
+router.post('/login',loginUser)
+router.post('/refresh-token',getRefreshToken)
 
 
 export default router;

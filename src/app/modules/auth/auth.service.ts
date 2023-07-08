@@ -2,16 +2,16 @@ import config from "../../../config";
 import { IAdmin } from "./auth.interface";
 import { Admin } from "./auth.model";
 import bcrypt from 'bcrypt';
-import { generateAdminId } from "./auth.utils";
+import {  generateUserId } from "./auth.utils";
 import ApiError from "../../../errors/ApiError";
 import { Secret } from "jsonwebtoken";
 var jwt = require('jsonwebtoken');
 
-export const createAdminService = async (payload: any): Promise<IAdmin> => {
+export const createUserService = async (payload: any): Promise<IAdmin> => {
   // console.log(payload);
   // Hash password
   // payload.password = await bcrypt.hash(payload.password, Number(config.bcrypt_salt_rounds))
-  payload.id = await generateAdminId();
+  payload.id = await generateUserId();
   // console.log(payload.id);
   const results = await Admin.create(payload);
 
@@ -19,7 +19,7 @@ export const createAdminService = async (payload: any): Promise<IAdmin> => {
 };
 
 
-export const loginAdminService = async (payload: any) => {
+export const loginUserService = async (payload: any) => {
   const { id, password } = payload;
   // console.log(payload);
 
@@ -58,6 +58,10 @@ export const loginAdminService = async (payload: any) => {
     refreshToken
   }
 
+};
+
+export const getRefreshTokenService = async (payload: any) => {
+  
 };
 
 

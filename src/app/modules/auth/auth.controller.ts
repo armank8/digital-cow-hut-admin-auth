@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { createAdminService, loginAdminService } from './auth.service';
+import { createUserService, getRefreshTokenService, loginUserService } from './auth.service';
 import config from '../../../config';
 
 
 
-export const createAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body;
-    const result = await createAdminService(userData);
+    const result = await createUserService(userData);
     console.log(req.cookies, 'cookie');
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Admin Created successfully",
+      message: "User Created successfully",
       data: result
     })
   } catch (err) {
@@ -20,10 +20,10 @@ export const createAdmin = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const loginAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const adminData = req.body;
-    const result = await loginAdminService(adminData);
+    const userData = req.body;
+    const result = await loginUserService(userData);
 
     const { refreshToken, ...others } = result;
 
@@ -46,6 +46,22 @@ export const loginAdmin = async (req: Request, res: Response, next: NextFunction
       message: "User logged in successfully",
       // data: result
       data: others
+    })
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userData = req.body;
+    const result = await getRefreshTokenService(userData);
+    console.log(req.cookies, 'cookie');
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "User Created successfully",
+      data: result
     })
   } catch (err) {
     next(err);
