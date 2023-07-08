@@ -23,11 +23,11 @@ export const loginUserService = async (payload: any) => {
   const { id, password } = payload;
   // console.log(payload);
 
-  const isAdminExist = await User.findOne({ id }, { id: 1, password: 1, role: 1 });
-  // console.log(isAdminExist);
+  const isAdminExist = await User.findOne({ _id:id }, { _id: 1, password: 1, role: 1 });
+  console.log(isAdminExist);
 
   if (!isAdminExist) {
-    throw new ApiError(400, 'Admin not exist');
+    throw new ApiError(400, 'User not exist');
   }
 
   // Match password
