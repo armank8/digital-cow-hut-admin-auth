@@ -1,19 +1,19 @@
 import config from "../../../config";
-import { IAdmin } from "./auth.interface";
-import { Admin } from "./auth.model";
+
 import bcrypt from 'bcrypt';
-import {  generateUserId } from "./auth.utils";
 import ApiError from "../../../errors/ApiError";
 import { Secret } from "jsonwebtoken";
+import { User } from "../user/user.model";
+import { IUser } from "../user/user.interface";
 var jwt = require('jsonwebtoken');
 
-export const createUserService = async (payload: any): Promise<IAdmin> => {
+export const createUserService = async (payload: any): Promise<IUser> => {
   // console.log(payload);
   // Hash password
   // payload.password = await bcrypt.hash(payload.password, Number(config.bcrypt_salt_rounds))
-  payload.id = await generateUserId();
+  // payload.id = await generateUserId();
   // console.log(payload.id);
-  const results = await Admin.create(payload);
+  const results = await User.create(payload);
 
   return results;
 };
@@ -23,7 +23,7 @@ export const loginUserService = async (payload: any) => {
   const { id, password } = payload;
   // console.log(payload);
 
-  const isAdminExist = await Admin.findOne({ id }, { id: 1, password: 1, role: 1 });
+  const isAdminExist = await User.findOne({ id }, { id: 1, password: 1, role: 1 });
   // console.log(isAdminExist);
 
   if (!isAdminExist) {
