@@ -20,10 +20,10 @@ export const createAdminService = async (payload: any): Promise<IAdmin> => {
 
 
 export const loginAdminService = async (payload: any) => {
-  const { id, password } = payload;
+  const { phoneNumber, password } = payload;
   // console.log(payload);
 
-  const isAdminExist = await Admin.findOne({ id }, { id: 1, password: 1, role: 1 });
+  const isAdminExist = await Admin.findOne({ phoneNumber }, { _id: 1, password: 1, role: 1 });
   // console.log(isAdminExist);
 
   if (!isAdminExist) {
@@ -40,14 +40,14 @@ export const loginAdminService = async (payload: any) => {
 
   // create access token & refresh token
   const accessToken = jwt.sign({
-    id: isAdminExist?.id,
+    id: isAdminExist?._id,
     role: isAdminExist?.role
   }, config.jwt.secret as Secret, {
     expiresIn: config.jwt.expires_in
   });
 
   const refreshToken = jwt.sign({
-    id: isAdminExist?.id,
+    id: isAdminExist?._id,
     role: isAdminExist?.role
   }, config.jwt.refresh_secret as Secret, {
     expiresIn: config.jwt.refresh_expires_in
