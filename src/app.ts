@@ -2,7 +2,7 @@ import express, { Application, NextFunction, Request, Response} from "express";
 import cors from "cors";
 // import ApiError from "./errors/ApiError";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
-import authRouter from "./app/modules/user/auth.route";
+import authRouter from "./app/modules/auth/auth.route";
 import userRouter from "./app/modules/user/user.route";
 import adminsRouter from "./app/modules/admin/admin.route";
 import cowsRouter from "./app/modules/cows/cows.route";
