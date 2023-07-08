@@ -24,7 +24,7 @@ export const loginUserService = async (payload: any) => {
   // console.log(payload);
 
   const isAdminExist = await User.findOne({ phoneNumber }, { _id: 1, password: 1, role: 1 });
-  console.log(isAdminExist);
+  // console.log(isAdminExist);
 
   if (!isAdminExist) {
     throw new ApiError(400, 'User not exist');
@@ -65,7 +65,7 @@ export const getRefreshTokenService = async (token: string) => {
   let verifiedToken=null ;
   try {
     verifiedToken = jwt.verify(token,config.jwt.refresh_secret);
-    console.log(verifiedToken);
+    // console.log(verifiedToken);
 
   } catch (err) {
     throw new ApiError(401,'Invalid refresh token');
@@ -74,15 +74,24 @@ export const getRefreshTokenService = async (token: string) => {
   const {id,role} = verifiedToken;
 
   //checking deleted user's refresh token
-
-  const isUserExist = await User.find({_id:id});
-  console.log(isUserExist);
+  const isUserExist = await User.findOne({_id:id});
+  // console.log(isUserExist);
 
   if(!isUserExist){
     throw new ApiError(404,'User doesnt exist');
   }
 
   //generate new token
+  const newAccessToken = jwt.sign({
+    id: isUserExist?._id,
+    role: isUserExist?.role
+  }, config.jwt.secret as Secret, {
+    expiresIn: config.jwt.expires_in
+  });
+
+  return {
+    accessToken : newAccessToken
+  }
 };
 
 

@@ -67,7 +67,7 @@ export const getRefreshToken = async (req: Request, res: Response, next: NextFun
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "refresh token ",
+      message: "User lohgged in successfully",
       data: result
     })
   } catch (err) {
