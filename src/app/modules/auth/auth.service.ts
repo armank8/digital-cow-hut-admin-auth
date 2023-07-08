@@ -60,8 +60,29 @@ export const loginUserService = async (payload: any) => {
 
 };
 
-export const getRefreshTokenService = async (payload: any) => {
-  
+export const getRefreshTokenService = async (token: string) => {
+  //verify token
+  let verifiedToken=null ;
+  try {
+    verifiedToken = jwt.verify(token,config.jwt.refresh_secret);
+    console.log(verifiedToken);
+
+  } catch (err) {
+    throw new ApiError(401,'Invalid refresh token');
+  }
+
+  const {id,role} = verifiedToken;
+
+  //checking deleted user's refresh token
+
+  const isUserExist = await User.find({_id:id});
+  console.log(isUserExist);
+
+  if(!isUserExist){
+    throw new ApiError(404,'User doesnt exist');
+  }
+
+  //generate new token
 };
 
 

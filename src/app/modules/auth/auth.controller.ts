@@ -54,13 +54,20 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
 export const getRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userData = req.body;
-    const result = await getRefreshTokenService(userData);
-    console.log(req.cookies, 'cookie');
+    const {refreshToken}= req.cookies;
+    const result = await getRefreshTokenService(refreshToken);
+
+    // set refresh token into cookie
+    const cookieOptions = {
+      secure: config.env === 'production',
+      httpOnly: true
+    };
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+    
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "User Created successfully",
+      message: "refresh token ",
       data: result
     })
   } catch (err) {
