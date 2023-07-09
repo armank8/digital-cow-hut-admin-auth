@@ -21,15 +21,20 @@ export const auth = (...requiredRoles: string[]) =>
                 throw new ApiError(404, 'u r not authorized');
             }
 
-            let verifiedToken;
+            let verifiedToken=null;
 
             //verify token
             verifiedToken = jwt.verify(token, config.jwt.secret as Secret);
 
             req.user = verifiedToken;
+
+            //role based guard
+            if (requiredRoles.length && !requiredRoles.includes(verifiedToken.role)) {
+                throw new ApiError(404, 'Forbidden ');
+            }
             next();
 
         } catch (error) {
-            next();
+            next(error);
         }
     }
