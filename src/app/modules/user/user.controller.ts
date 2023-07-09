@@ -6,7 +6,7 @@ import {  deleteUserService, getSingleUserService, getUsersService, updateUserSe
 export const getUsers =async(req:Request,res:Response,next:NextFunction)=>{
     try {    
         console.log(req.headers.authorization);  
-          
+        console.log(req.user);  
         const result = await getUsersService();
         res.status(200).json({
             success:true,
