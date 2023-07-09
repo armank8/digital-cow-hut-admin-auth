@@ -1,24 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthSignupService, deleteUserService, getSingleUserService, getUsersService, updateUserService } from "./user.service";
+import {  deleteUserService, getSingleUserService, getUsersService, updateUserService } from "./user.service";
 
 
-export const authSignup =async(req:Request,res:Response,next:NextFunction)=>{
-    try {
-        const userData = req.body;
-        const result = await AuthSignupService(userData);
-        res.status(200).json({
-            success:true,
-            statusCode:200,
-            message:"Users Created successfully",
-            data:result 
-        })
-    } catch (err) {      
-        next(err);
-    } 
-}
 
 export const getUsers =async(req:Request,res:Response,next:NextFunction)=>{
-    try {        
+    try {    
+        console.log(req.headers.authorization);  
+          
         const result = await getUsersService();
         res.status(200).json({
             success:true,

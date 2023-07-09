@@ -2,15 +2,6 @@
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
-export const AuthSignupService = (payload: any): Promise<IUser> => {
-  const results = User.create(payload);
-  // console.log(results);
-
-  // if(!results){
-  //     throw new ApiError(400,'Failed to create user');
-  // }
-  return results;
-};
 
 export const getUsersService = () => {
   const data = User.find({});
