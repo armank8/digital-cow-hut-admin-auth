@@ -27,6 +27,7 @@ export const auth = (...requiredRoles: string[]) =>
             verifiedToken = jwt.verify(token, config.jwt.secret as Secret);
 
             req.user = verifiedToken;
+            req.id = verifiedToken;
 
             //role based guard
             if (requiredRoles.length && !requiredRoles.includes(verifiedToken.role)) {
