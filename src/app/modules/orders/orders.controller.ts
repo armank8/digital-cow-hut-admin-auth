@@ -26,7 +26,8 @@ export const getOrders = async (
   next: NextFunction
 ) => {
   try {
-    const result = await getOrdersService();
+    // console.log(req.user);
+    const result = await getOrdersService(req.user);
     res.status(200).json({
       success: true,
       statusCode: 200,

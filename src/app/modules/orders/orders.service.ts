@@ -89,7 +89,20 @@ export const createOrdersService = async (payload: any) => {
   // return results;
 };
 
-export const getOrdersService = () => {
-  const data = Orders.find({}).populate(["cow", "buyer"]);
-  return data;
+export const getOrdersService =async (userData: any) => {
+  if (userData.role === 'buyer') {
+    const data =await  Orders.find({buyer:userData.id}).populate(["cow", "buyer"]);
+    return data;
+  }else if(userData.role ==='seller'){
+    // const data = await Orders.find({buyer:userData.id}).populate(["cow", "buyer"]);
+    const cowData:any = await Cows.find({seller:userData.id});
+    console.log(cowData);
+
+    const data = await Orders.find({cow:cowData[0].id}).populate(["cow", "buyer"]);
+    return data;
+  }else if(userData.role ==='admin'){
+    const data = await Orders.find({}).populate(["cow", "buyer"]);
+    return data;
+  }
+
 };
