@@ -83,8 +83,9 @@ export const updateCow = async (
   try {
     const id = req.params.id;
     const updatedData = req.body;
-    console.log(id, updatedData);
-    const result = await updateCowService(id, updatedData);
+    console.log(req.user);
+    // console.log(id, updatedData);    
+    const result = await updateCowService(id, updatedData,req.user);
     res.status(200).json({
       success: true,
       statusCode: 200,
@@ -102,8 +103,8 @@ export const deleteCow = async (
 ) => {
   try {
     const id = req.params.id;
-
-    const result = await deleteCowService(id);
+    // console.log(id,req.user);
+    const result = await deleteCowService(id,req.user);
     res.status(200).json({
       success: true,
       statusCode: 200,

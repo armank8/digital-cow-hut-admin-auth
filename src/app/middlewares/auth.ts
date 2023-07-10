@@ -28,6 +28,7 @@ export const auth = (...requiredRoles: string[]) =>
 
             req.user = verifiedToken;
             req.id = verifiedToken;
+            // console.log(req.user,req.id);
 
             //role based guard
             if (requiredRoles.length && !requiredRoles.includes(verifiedToken.role)) {

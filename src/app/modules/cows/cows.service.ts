@@ -3,6 +3,7 @@ import { SortOrder } from "mongoose";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import { ICows, IFilters } from "./cows.interface";
 import { Cows } from "./cows.model";
+import ApiError from "../../../errors/ApiError";
 
 export const getCowsService = async (
   filters: IFilters,
@@ -122,19 +123,41 @@ export const getSingleCowService = (payload: string) => {
   //   console.log(data);
   return data;
 };
-export const updateCowService = async (id: string, payload: any) => {
-  const data = await Cows.findByIdAndUpdate({ _id: id }, payload, {
-    new: true,
-  });
-  return data;
+export const updateCowService = async (id: string, payload: any, userData: any) => {
+  // console.log(userData);
+  const cowData = await Cows.findOne({ _id: id });
+  const sellerID = cowData?.seller.toHexString();
+  // console.log(sellerID);
+
+  if (userData.id === sellerID) {
+    // console.log('matched');
+    const data = await Cows.findByIdAndUpdate({ _id: id }, payload, {
+      new: true,
+    });
+    return data;
+  } else {
+    throw new ApiError(400, 'you are not authorized to update this');
+  }
+
 };
 
-export const deleteCowService = async (id: string) => {
-  const data = await Cows.findOneAndDelete(
-    { _id: id },
-    {
-      new: true,
-    }
-  );
-  return data;
+export const deleteCowService = async (id: string, userData: any) => {
+
+  const cowData = await Cows.findOne({ _id: id });
+  console.log(cowData);
+  console.log(userData);
+  const sellerID = cowData?.seller.toHexString();
+
+  if (userData.id === sellerID) {
+    const data = await Cows.findOneAndDelete(
+      { _id: id },
+      {
+        new: true,
+      }
+    );
+    return data;
+  } else {
+    throw new ApiError(400, 'you are not authorized to delete this');
+  }
+
 };
