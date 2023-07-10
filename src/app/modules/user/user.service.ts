@@ -14,6 +14,12 @@ export const myProfileService = (userData: any) => {
   return data;
 };
 
+export const updateMyProfileService = async (userData: any, updatedData: any) => {
+  const { id } = userData;
+  const data = await User.findOneAndUpdate({ _id: id }, updatedData, { new: true });
+  return data;
+};
+
 export const getSingleUserService = (payload: string) => {
   const data = User.find({ _id: payload });
   //   console.log(data);

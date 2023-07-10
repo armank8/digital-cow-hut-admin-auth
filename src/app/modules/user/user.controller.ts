@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {  deleteUserService, getSingleUserService, getUsersService, myProfileService, updateUserService } from "./user.service";
+import {  deleteUserService, getSingleUserService, getUsersService, myProfileService, updateMyProfileService, updateUserService } from "./user.service";
 
 
 
@@ -34,6 +34,23 @@ export const myProfile =async(req:Request,res:Response,next:NextFunction)=>{
         next(err);
     } 
 }
+
+export const updateMyProfile =async(req:Request,res:Response,next:NextFunction)=>{
+    try {    
+        // console.log(req.headers.authorization);  
+        console.log(req.user,req.body);  
+        const result = await updateMyProfileService(req.user,req.body);
+        res.status(200).json({
+            success:true,
+            statusCode:200,
+            message:"Users information updated successfully",
+            data:result 
+        })
+    } catch (err) {      
+        next(err);
+    } 
+}
+
 export const getSingleUser =async(req:Request,res:Response,next:NextFunction)=>{
     try {
         const id = req.params.id;
