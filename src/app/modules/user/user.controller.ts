@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {  deleteUserService, getSingleUserService, getUsersService, updateUserService } from "./user.service";
+import {  deleteUserService, getSingleUserService, getUsersService, myProfileService, updateUserService } from "./user.service";
 
 
 
@@ -12,6 +12,22 @@ export const getUsers =async(req:Request,res:Response,next:NextFunction)=>{
             success:true,
             statusCode:200,
             message:"Users retrieved successfully",
+            data:result 
+        })
+    } catch (err) {      
+        next(err);
+    } 
+}
+
+export const myProfile =async(req:Request,res:Response,next:NextFunction)=>{
+    try {    
+        // console.log(req.headers.authorization);  
+        // console.log(req.user);  
+        const result = await myProfileService(req.user);
+        res.status(200).json({
+            success:true,
+            statusCode:200,
+            message:"Users information retrieved successfully",
             data:result 
         })
     } catch (err) {      

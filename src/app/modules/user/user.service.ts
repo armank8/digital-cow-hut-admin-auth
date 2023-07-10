@@ -7,6 +7,13 @@ export const getUsersService = () => {
   const data = User.find({});
   return data;
 };
+
+export const myProfileService = (userData: any) => {
+  const { id } = userData;
+  const data = User.find({ _id: id });
+  return data;
+};
+
 export const getSingleUserService = (payload: string) => {
   const data = User.find({ _id: payload });
   //   console.log(data);
